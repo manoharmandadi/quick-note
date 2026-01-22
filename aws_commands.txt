@@ -1,0 +1,79 @@
+sudo apt update
+
+sudo apt upgrade
+
+######### install Apache 2 #########
+sudo apt install apache2
+
+
+
+######### Copy files #######
+
+scp -i myAmazonKey.pem phpMyAdmin-3.4.5-all-languages.tar.gz ec2-user@mec2-50-17-16-67.compute-1.amazonaws.com:~/.
+
+scp -i C:\Manohar\practice\aws-practice\_administration\AWS-EC2-South.pem ‪C:\Users\manohar\Desktop\test.html ubuntu@3.111.130.81:/var/www/html
+
+######### Mount S3 on EC2 ##################
+
+
+mkdir ~/mnt
+
+mount-s3 amzn-s3-demo-bucket ~/mnt
+
+
+
+################ s3 #####################
+aws s3api list-buckets
+aws s3api create-bucket --bucket mandadi-artifacts --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
+--endpoint-url
+
+/// Copy to S3 bucket
+‪aws s3 cp <local_file_path> s3://<your_bucket_name>/<destination_path_in_S3>
+
+aws s3 cp C:\Users\manohar\Desktop\learn.html s3://miscellanious-scrap/apache
+
+aws s3 cp D:\Manohar\practice\spring-practice\spring-mvc\target\spring-mvc-practice-0.0.3-SNAPSHOT.jar s3://mandadi-artifacts
+
+aws s3 cp --recursive D:\Manohar\reactPractice\mandadi_in\build s3://mandadi.in
+
+//Copy from S3 to EC2
+aws s3 cp --recursive s3://miscellanious-scrap/apache /var/www/html
+aws s3 cp --recursive s3://mandadi.in /var/www/html
+aws s3 cp --recursive s3://mandadi-artifacts 
+
+s3://mandadi.in/ /mnt/mountpoint mount-s3 _netdev,nosuid,nodev,nofail,rw 0 0
+
+
+############## ECR ###########################################
+
+aws ecr create-repository --repository-name hello-repository --region region
+
+aws ecr create-repository --repository-name in_mandadi_ecr --region ap-south-1
+
+####### authenticate to ECR
+aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+
+Note: username has to be AWS, not the user account logging in
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 335273834818.dkr.ecr.ap-south-1.amazonaws.com/in_mandadi_ecr
+
+##### tag
+docker tag aws-ubuntu-mandadi-in-img:latest 335273834818.dkr.ecr.ap-south-1.amazonaws.com/in_mandadi_ecr
+
+#### push
+
+docker push 335273834818.dkr.ecr.ap-south-1.amazonaws.com/in_mandadi_ecr
+
+### Delete Repository
+
+aws ecr delete-repository --repository-name in_mandadi_ecr --force --region ap-south-1
+
+
+
+########################### Curl commands ########################################
+
+curl -i -X GET 'http://mandadi-in.ap-south-1.elasticbeanstalk.com:8080/api/v1/welcome'
+
+
+curl -i -X POST -H "Content-Type:application/json" 'http://mandadi-in.ap-south-1.elasticbeanstalk.com:8080/visit'
+
+

@@ -1,0 +1,61 @@
+##################################   build ###################################################################
+
+
+
+
+docker build -t visitor-mgmt .
+
+
+
+
+
+##################################   run #########################################################################
+
+
+docker run --name container-name image
+
+docker run --name visitor-mgmt-container visitor-mgmt
+
+######## Run in some/same Network
+docker run --name visitor-mgmt-container --network my_network visitor-mgmt
+ 
+docker run --name visitor-mgmt-pod --network visitorMgmt-network -p 8080:8080 -d visitor-mgmt
+
+
+######################################  exec 
+docker exec -it <service-container-name> ping <db-service-name>
+
+docker exec -it <service-container-name> ping <db-service-name>
+
+
+
+
+#####################################################################################################################
+######################################  POSTGRES  ###################################################################
+#####################################################################################################################
+docker pull postgres:14.20
+
+
+	
+docker run --name postgres-cont -e POSTGRES_PASSWORD=db_passwd -d -p 5432:5432  postgres:14.20
+
+docker run --name postgres-cont -e POSTGRES_PASSWORD=db_passwd -d -p 5432:5432 --network visitorMgmt-network postgres:14.20
+
+docker run --name postgres-cont -e POSTGRES_PASSWORD=db_passwd -d -p 5432:5432 --network visitorMgmt-network -v postgres-visitMgmt-vol:/var/lib/postgresql/data postgres:14.20
+
+
+
+########### volume for postgres
+
+docker volume create  postgres-visitMgmt-vol
+
+#########################################   Network  #################################################
+docker network ls
+docker network create network_name
+
+docker network create visitorMgmt-network
+
+
+
+# For passing spring profile to docker run
+-e SPRING_PROFILES_ACTIVE='dev'
