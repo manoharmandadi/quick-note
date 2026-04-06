@@ -1,0 +1,22 @@
+server:
+  port: 4005
+logging:
+  level:
+    root: info
+    com:
+      pm:
+        authservice: debug
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5001/auth-service-db
+    driver-class-name: org.postgresql.Driver
+    username: admin_user
+    password: password
+  jpa:
+      #    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always

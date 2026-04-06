@@ -1,0 +1,12 @@
+# create patient
+POST http://localhost:4004/patients
+Content-Type: application/json
+
+{
+"name" : "Kafka Tets",
+"email" : "kafka-test111113@patient.com",
+"address" : "123 st, dummy blvd, patient, OH-12345",
+"dateOfBirth" : "1999-09-09",
+"registrationDate" : "2019-09-09"
+}
+###
